@@ -1,0 +1,16 @@
+apply plugin: 'com.android.library'
+apply from: '../android_commons_configurations.gradle'
+
+android {
+
+}
+
+dependencies {
+    implementation project(":core")
+    implementation project(":database")
+    implementation project(":navigation")
+    implementation project(":shared_models")
+    implementation project(":di")
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+}

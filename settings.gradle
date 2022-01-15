@@ -1,0 +1,17 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "GithubUsersTask"
+include ':app'
+include ':user_list'
+include ':user_profile'
+include ':shared_models'
+include ':core'
+include ':bit_cacher'
+include ':navigation'
+include ':database'
+include ':di'
