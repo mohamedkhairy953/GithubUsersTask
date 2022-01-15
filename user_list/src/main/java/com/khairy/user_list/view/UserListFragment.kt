@@ -16,18 +16,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.khairy.core.helpers.MainShareViewModel
 import com.khairy.core.helpers.PaginationScrollListener
-import com.khairy.core.helpers.network.Resource
 import com.khairy.core.helpers.extensions.shouldShow
 import com.khairy.core.helpers.isInternetConnected
+import com.khairy.core.helpers.network.Resource
 import com.khairy.shared_models.*
 import com.khairy.shared_models.models.User
 import com.khairy.user_list.R
 import com.khairy.user_list.databinding.FragmentUserListBinding
 import com.khairy.user_list.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 import kotlinx.coroutines.InternalCoroutinesApi
-
 
 
 @InternalCoroutinesApi
@@ -113,7 +111,6 @@ class UserListFragment : Fragment() {
             when (it) {
 
                 is Resource.Loading -> {
-
                     binding.userListSearchInput.text?.clear()
 
                     if (!userListAdapter.isLastLoadingItemIsShown) {
@@ -138,11 +135,15 @@ class UserListFragment : Fragment() {
 
             binding.userListSwipeRefreshLayout.isRefreshing = showLoading
         })
+
+        viewModel.showShimmerLD.observe(viewLifecycleOwner,{
+            binding.progressDialogShimmer.root.shouldShow(it)
+        })
     }
 
     private fun initViewsListeners() {
 
-        binding.userListSwipeRefreshLayout.setOnRefreshListener { viewModel.getUsers() }
+        binding.userListSwipeRefreshLayout.setOnRefreshListener { viewModel.getUsers(isFromSwipeToRefresh = true) }
 
         binding.userListRecycleView.addOnScrollListener(object :
             PaginationScrollListener(binding.userListRecycleView.layoutManager as LinearLayoutManager) {

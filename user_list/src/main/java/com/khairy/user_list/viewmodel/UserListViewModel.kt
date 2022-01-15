@@ -26,8 +26,11 @@ class UserListViewModel @Inject constructor(private val userRepository: UserRepo
     var isUsersLoading = false
 
     private val _users = MutableLiveData<Resource<List<User>>>()
+    private val _showShimmer = MutableLiveData<Boolean>()
     val users: LiveData<Resource<List<User>>>
         get() = _users
+    val showShimmerLD: LiveData<Boolean>
+        get() = _showShimmer
 
     /**
      *  Download users list, use existingUsers to download 30 more
@@ -35,14 +38,15 @@ class UserListViewModel @Inject constructor(private val userRepository: UserRepo
      *
      *  @param existingUsers List of [User] (optional)
      */
-    fun getUsers(existingUsers: List<User> = listOf()) {
+    fun getUsers(existingUsers: List<User> = listOf(), isFromSwipeToRefresh: Boolean = false) {
         cancelAnyUserLoadingJobJob()
-
+        if (existingUsers.isEmpty() && !isFromSwipeToRefresh)
+            _showShimmer.value = true
         isUsersLoading = true
 
         userLoadingJob = viewModelScope.launch {
-
             userRepository.getUsers(existingUsers).onEach { resultUsers ->
+                _showShimmer.value = false
                 _users.value = resultUsers
             }.launchIn(viewModelScope)
         }
