@@ -9,8 +9,6 @@ import com.khairy.shared_models.models.User
 import com.khairy.user_list.model.repo.UserRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.cancellable
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -45,7 +43,7 @@ class UserListViewModel @Inject constructor(private val userRepository: UserRepo
         isUsersLoading = true
 
         userLoadingJob = viewModelScope.launch {
-            userRepository.getUsers(existingUsers).onEach { resultUsers ->
+            userRepository.getProductList(existingUsers).onEach { resultUsers ->
                 _showShimmer.value = false
                 _users.value = resultUsers
             }.launchIn(viewModelScope)

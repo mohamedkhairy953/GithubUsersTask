@@ -53,7 +53,7 @@ class UserListViewModelTest {
 
     private fun getMockedRepo(response: Resource<List<User>>): UserRepositoryImpl {
         return mockk {
-            io.mockk.coEvery { getUsers(any()) } returns flowOf(response)
+            io.mockk.coEvery { getProductList(any()) } returns flowOf(response)
             io.mockk.coEvery { searchUsers(any()) } returns flowOf(response)
         }
     }

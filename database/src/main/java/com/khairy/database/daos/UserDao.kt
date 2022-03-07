@@ -25,8 +25,8 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE login LIKE '%' || :input || '%'")
     suspend fun searchByLogin(input: String): List<UserEntity>
 
-    @Query("SELECT * FROM user ORDER BY id LIMIT :limit")
-    fun queryAllUntil(limit: Int): Flow<List<UserEntity>>
+    @Query("SELECT * FROM user ORDER BY id")
+    fun queryAll(): Flow<List<UserEntity>>
 
     @Query("SELECT * FROM user WHERE id = :userId")
     fun getUserById(userId: Long): Flow<UserEntity>

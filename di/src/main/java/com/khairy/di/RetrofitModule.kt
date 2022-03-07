@@ -1,6 +1,7 @@
 package com.khairy.di
 
 import android.content.Context
+import android.net.TrafficStats
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.khairy.core.helpers.retrofit.NetworkConnectionInterceptor
@@ -9,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -36,10 +38,8 @@ object RetrofitModule {
         val okHttpClient = OkHttpClient.Builder()
             .readTimeout(5, TimeUnit.MINUTES)
             .connectTimeout(90, TimeUnit.SECONDS)
-            .addInterceptor(NetworkConnectionInterceptor(appContext))
             .dispatcher(dispatcher)
             .build()
-
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl("https://api.github.com/")
